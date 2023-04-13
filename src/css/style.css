@@ -664,11 +664,12 @@ a.logo img:not(:last-child) {
   transition: all 0.25s ease;
   user-select: none;
   border-bottom: 2px solid rgba(0, 0, 0, 0);
-  color: var(--text-color);
+  color: var(--muted-text-color);
 }
 
 .tabs a.active {
   border-bottom: 2px solid var(--text-color);
+  color: var(--text-color);
 }
 
 .tabs a:hover {
@@ -849,7 +850,7 @@ header.footer .header-content {
   border-bottom: var(--msg-border-bottom);
 }
 
-.msg.quote .msg-content, .msg-quoting .msg-content {
+.msg.quote .msg-content, .msg-quoting .msg-content, .msg:last-of-type .msg-content {
   border-bottom: none;
 }
 
@@ -1829,7 +1830,7 @@ hr {
 .centered-container {
   display: flex;
   flex: 1;
-  max-width: 600px;
+  max-width: 935px;
   flex-direction: column;
   margin: 15px auto 15px auto;
 }
@@ -2279,6 +2280,10 @@ form.public {
 .profile-header-stuff .profile-about {
   margin-bottom: 15px;
   flex: 1;
+}
+
+.profile-actions a {
+  color: var(--text-color);
 }
 
 .msg-feed .tabs {

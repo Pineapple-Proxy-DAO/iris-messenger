@@ -52,7 +52,7 @@ class Note extends View {
         />
       );
     }
-    return <div className="centered-container">{content}</div>;
+    return <div className="centered-container" style="max-width: 600px">{content}</div>;
   }
 }
 
