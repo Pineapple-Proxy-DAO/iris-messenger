@@ -58,13 +58,18 @@
 
 [data-theme="light"] {
   --body-bg: #ffffff;
-  --blue: #1d9bf0;
-  --button-bg: #8e44ad;
-  --button-bg-hover: #5a488b;
-  --button-border: 0;
-  --button-border-size: 0;
+  --blue: #3399ff;
+  --button-bg: #4a4a4a;
+  --button-bg-hover: #3c3c3c;
+  --button-border: 1px solid #ffffff;
   --button-color: #ffffff;
   --button-color-hover: #ffffff;
+  --button-primary-bg: #8e44ad;
+  --button-primary-bg-hover: #5a488b;
+  --button-primary-border: 0;
+  --button-border-size: 0;
+  --button-primary-color: #fefffe;
+  --button-primary-color-hover: #fefffe;
   --chat-active: #f5f5f5;
   --chat-hover: #f0f0f0;
   --connecting-line-color: #cfd9dd;
@@ -75,26 +80,29 @@
   --emoji-picker-border-color: #e5e5e5;
   --emoji-picker-color: #000000;
   --gallery-background: rgba(255, 255, 255, 0.8);
-  --green: #34ba7c;
+  --green: #28a745;
   --header-color: #ffffff;
   --input-bg: #f5f5f5;
   --input-placeholder: #666;
   --input-text: #000000;
   --login-background: #ffffff;
-  --main-color: #f5f5f5;
+  --main-color: #ffffff;
   --menu-bg: #ffffff;
   --msg-border: none;
+  --msg-border-bottom: 1px solid #e5e5e5;
   --msg-content-background: #ffffff;
   --msg-form-button-color: #000000;
   --nav-border-bottom: 1px solid #e5e5e5;
   --nav-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8);
   --non-string-value-color: #9e64fe;
   --notify: #c8b1f0;
-  --our-msg-bg: #1d9bf0;
+  --orange: #ffa600;
+  --our-msg-bg: #3399ff;
   --our-msg-color: #ffffff;
+  --purple: #8a3eb1; /* adjusted purple */
   --radio-button-background: #f5f5f5;
-  --radio-button-checked-background: #33b7fe;
-  --red: #f81780;
+  --radio-button-checked-background: #3399ff;
+  --red: #dc3545;
   --seen-indicator: rgba(0, 0, 0, 0.45);
   --sidebar-bg: #ffffff;
   --sidebar-border-right: 1px solid #e5e5e5;
@@ -105,6 +113,8 @@
   --warning-background: #fe5493;
   --zebra-stripe-bg: #f5f5f5;
 }
+
+
 
 * {
   box-sizing: border-box;
@@ -654,10 +664,11 @@ a.logo img:not(:last-child) {
   transition: all 0.25s ease;
   user-select: none;
   border-bottom: 2px solid rgba(0, 0, 0, 0);
+  color: var(--text-color);
 }
 
 .tabs a.active {
-  border-bottom: 2px solid var(--blue);
+  border-bottom: 2px solid var(--text-color);
 }
 
 .tabs a:hover {
@@ -1818,7 +1829,7 @@ hr {
 .centered-container {
   display: flex;
   flex: 1;
-  max-width: 650px;
+  max-width: 600px;
   flex-direction: column;
   margin: 15px auto 15px auto;
 }

@@ -35,7 +35,7 @@ const ImageGrid = styled.div`
 `;
 
 const Notes = styled.div`
-  max-width: 650px;
+  max-width: 600px;
   margin: 15px auto 0;
 `;
 
@@ -417,7 +417,6 @@ class Feed extends Component {
     return (
       <div className="tabs">
         <a
-          style={isProfile ? { 'border-radius': '8px 0 0 0' } : {}}
           onClick={() => {
             this.setState({ settings: { ...this.state.settings, display: 'posts' } }); // faster to do this also
             localState.get('settings').get('feed').get('display').put('posts');
@@ -427,7 +426,6 @@ class Feed extends Component {
           {Icons.post}
         </a>
         <a
-          style={isProfile ? { 'border-radius': '0 8px 0 0' } : {}}
           className={this.state.settings.display === 'grid' ? 'active' : ''}
           onClick={() => {
             this.setState({ settings: { ...this.state.settings, display: 'grid' } }); // faster to do this also
