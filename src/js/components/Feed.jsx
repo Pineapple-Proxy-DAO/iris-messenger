@@ -34,6 +34,11 @@ const ImageGrid = styled.div`
   }
 `;
 
+const Notes = styled.div`
+  max-width: 650px;
+  margin: 15px auto 0;
+`;
+
 const DEFAULT_SETTINGS = {
   display: 'posts',
   realtime: false,
@@ -644,7 +649,7 @@ class Feed extends Component {
               </div>
             </div>
           )}
-          {renderAs === 'NoteImage' ? <ImageGrid>{events}</ImageGrid> : events}
+          {renderAs === 'NoteImage' ? <ImageGrid>{events}</ImageGrid> : <Notes>{events}</Notes>}
         </div>
         {displayCount < this.state.sortedEvents.length ? this.renderShowMore() : ''}
       </div>

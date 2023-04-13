@@ -31,7 +31,8 @@
   --main-color: #000000;
   --menu-bg: #000000;
   --msg-border: none;
-  --msg-content-background: #15181c;
+  --msg-border-bottom: 1px solid #292b31;
+  --msg-content-background: #000000;
   --msg-form-button-color: #ffffff;
   --nav-border-bottom: 1px solid #222526;
   --nav-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8);
@@ -834,6 +835,11 @@ header.footer .header-content {
   display: flex;
   flex-direction: column;
   margin-bottom: 4px;
+  border-bottom: var(--msg-border-bottom);
+}
+
+.msg.quote .msg-content, .msg-quoting .msg-content {
+  border-bottom: none;
 }
 
 .msg:not(.standalone) .msg-content {
@@ -929,7 +935,7 @@ header.footer .header-content {
 }
 
 #profile .content {
-  width: 650px;
+  width: 935px;
   max-width: 100%;
 }
 
@@ -1256,7 +1262,7 @@ a.msg {
   max-width: 100%;
   max-height: none;
   object-fit: cover;
-  border-radius: 15px;
+  border-radius: 4px;
   border: 1px solid var(--main-color);
   overflow: hidden;
   cursor: pointer;
@@ -1347,15 +1353,15 @@ a.msg {
 }
 
 .public-messages-view .msg:first-of-type .msg-content {
-  border-radius: 8px 8px 0 0;
+  border-radius: 0;
 }
 
 .public-messages-view .msg:last-of-type .msg-content {
-  border-radius: 0 0 8px 8px;
+  border-radius: 0;
 }
 
 .public-messages-view .msg:only-of-type .msg-content {
-  border-radius: 8px 8px 8px 8px;
+  border-radius: 0;
 }
 
 .img-container {
