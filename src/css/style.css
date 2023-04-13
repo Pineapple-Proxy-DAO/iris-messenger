@@ -2406,6 +2406,7 @@ input[type='text'] {
   flex: 1;
   padding: 15px;
   overflow: hidden;
+  max-width: 250px;
 }
 
 .profile-picture {
