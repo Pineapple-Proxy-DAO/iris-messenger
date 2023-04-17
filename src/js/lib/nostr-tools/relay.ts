@@ -6,7 +6,7 @@ import {Filter, matchFilters} from './filter'
 type RelayEvent = 'connect' | 'disconnect' | 'error' | 'notice'
 
 export type Relay = {
-  enabled?: any;
+  enabled?: any
   url: string
   status: number
   connect: () => Promise<void>
@@ -33,11 +33,16 @@ type SubscriptionOptions = {
 }
 
 // TODO allowAuthor fn so we can skip JSON.parse and sig verify if we won't allow the author anyway
-export function relayInit(url: string, alreadyHaveEvent?: (id: string) => boolean): Relay {
+export function relayInit(
+  url: string,
+  alreadyHaveEvent?: (id: string) => boolean
+): Relay {
   var ws: WebSocket
   var resolveClose: () => void
-  var resolveOpen: (value: (PromiseLike<void> | void)) => void
-  var untilOpen = new Promise<void>((resolve) => { resolveOpen = resolve })
+  var resolveOpen: (value: PromiseLike<void> | void) => void
+  var untilOpen = new Promise<void>(resolve => {
+    resolveOpen = resolve
+  })
   var openSubs: {[id: string]: {filters: Filter[]} & SubscriptionOptions} = {}
   var listeners: {
     connect: Array<() => void>
@@ -63,7 +68,7 @@ export function relayInit(url: string, alreadyHaveEvent?: (id: string) => boolea
       failed: Array<(reason: string) => void>
     }
   } = {}
-  let idRegex = /"id":"([a-fA-F0-9]+)"/;
+  let idRegex = /"id":"([a-fA-F0-9]+)"/
 
   async function connectRelay(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -168,7 +173,14 @@ export function relayInit(url: string, alreadyHaveEvent?: (id: string) => boolea
 
     await untilOpen
     try {
-      ws.send(msg)
+      // ws.send(msg)
+
+      window.nym.client.rawSend({
+        payload: new TextEncoder().encode(msg),
+        recipient:
+          '2gc9QidpXs4YGKmphinsDhWTHxdy2TZgWYWz2VenN5jL.dkwwJqS1zXa9BuPAFdniRN2HxFvAbTybAmrUHGAT5KV@2BuMSfMW3zpeAjKXyKLhmY4QW1DXurrtSPEJ6CjX3SEh',
+        replySurbs: 100
+      })
     } catch (err) {
       console.log(err)
     }
@@ -219,19 +231,13 @@ export function relayInit(url: string, alreadyHaveEvent?: (id: string) => boolea
   return {
     url,
     sub,
-    on: (
-      type: RelayEvent,
-      cb: any
-    ): void => {
+    on: (type: RelayEvent, cb: any): void => {
       listeners[type].push(cb)
       if (type === 'connect' && ws?.readyState === 1) {
         cb()
       }
     },
-    off: (
-      type: RelayEvent,
-      cb: any
-    ): void => {
+    off: (type: RelayEvent, cb: any): void => {
       let index = listeners[type].indexOf(cb)
       if (index !== -1) listeners[type].splice(index, 1)
     },

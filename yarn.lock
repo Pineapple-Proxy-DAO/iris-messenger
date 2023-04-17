@@ -1475,6 +1475,11 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@nymproject/sdk@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@nymproject/sdk/-/sdk-1.1.7.tgz#46a05c9934456585c9953935306ca6bacd371468"
+  integrity sha512-zSHp2ejURHUJ/v1Hdo1/rpeg1jr+83uEZJqwyB8miTSK7BfND5weOGgx5qQBvY1nBLKhWdaSojdyByJRLMT9kA==
+
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
