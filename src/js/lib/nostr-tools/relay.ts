@@ -3,6 +3,7 @@
 import {Event, verifySignature, validateEvent} from './event'
 import {Filter, matchFilters} from './filter'
 
+
 type RelayEvent = 'connect' | 'disconnect' | 'error' | 'notice'
 
 export type Relay = {
@@ -99,19 +100,22 @@ export function relayInit(
         }
 
         var data = incomingMessageQueue.shift()
+        console.log("new data "+ data)
+
         if (data && alreadyHaveEvent !== undefined) {
           const match = idRegex.exec(data)
           if (match) {
             const id = match[1]
             if (alreadyHaveEvent(id)) {
-              //console.log(`already have`);
               return
             }
           }
         }
         try {
           data = JSON.parse(data)
-        } catch (err) {}
+        } catch (err) {
+          console.log(err)
+        }
 
         if (data.length >= 1) {
           switch (data[0]) {
@@ -156,31 +160,64 @@ export function relayInit(
 
       ws.onmessage = e => {
         incomingMessageQueue.push(e.data)
+        console.log(e)
         if (!handleNextInterval) {
           handleNextInterval = setInterval(handleNext, 0)
         }
       }
+      
+      if (window.nym === undefined) {
+      const promise1 = new Promise((resolve, reject) => {
+        const loop = () => window.nym !== undefined ? resolve(window.nym) : setTimeout(loop)
+        loop();
+      });
+
+      promise1.then((value) => {
+        console.log(value);
+      });
+
+
+      setTimeout(set, 10000);
+
+      function set(){
+      window.nym.events.subscribeToRawMessageReceivedEvent((e) => {
+        console.log('Testing in ' + new TextDecoder().decode(e.args.payload));
+        incomingMessageQueue.push(new TextDecoder().decode(e.args.payload))
+        console.log("push in queue")
+        if (!handleNextInterval) {
+          handleNextInterval = setInterval(handleNext, 0)
+        }
+      });
+    }
+  }
+
     })
   }
+
+
 
   async function connect(): Promise<void> {
     if (ws?.readyState && ws.readyState === 1) return // ws already open
     await connectRelay()
+
+    
   }
 
   async function trySend(params: [string, ...any]) {
     let msg = JSON.stringify(params)
+    console.log("Send "+msg)
+    window.nym.client.rawSend({
+      payload: new TextEncoder().encode(msg),
+      recipient:
+        '2gc9QidpXs4YGKmphinsDhWTHxdy2TZgWYWz2VenN5jL.dkwwJqS1zXa9BuPAFdniRN2HxFvAbTybAmrUHGAT5KV@2BuMSfMW3zpeAjKXyKLhmY4QW1DXurrtSPEJ6CjX3SEh',
+      replySurbs: 100
+    })
 
-    await untilOpen
+    //await untilOpen
     try {
-      // ws.send(msg)
+       //ws.send(msg)
 
-      window.nym.client.rawSend({
-        payload: new TextEncoder().encode(msg),
-        recipient:
-          '2gc9QidpXs4YGKmphinsDhWTHxdy2TZgWYWz2VenN5jL.dkwwJqS1zXa9BuPAFdniRN2HxFvAbTybAmrUHGAT5KV@2BuMSfMW3zpeAjKXyKLhmY4QW1DXurrtSPEJ6CjX3SEh',
-        replySurbs: 100
-      })
+     
     } catch (err) {
       console.log(err)
     }
@@ -200,6 +237,7 @@ export function relayInit(
       filters,
       skipVerification
     }
+   
     trySend(['REQ', subid, ...filters])
 
     return {
@@ -233,9 +271,9 @@ export function relayInit(
     sub,
     on: (type: RelayEvent, cb: any): void => {
       listeners[type].push(cb)
-      if (type === 'connect' && ws?.readyState === 1) {
+      //if (type === 'connect' && ws?.readyState === 1) {
         cb()
-      }
+      //}
     },
     off: (type: RelayEvent, cb: any): void => {
       let index = listeners[type].indexOf(cb)
