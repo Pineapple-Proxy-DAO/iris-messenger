@@ -34,7 +34,7 @@
     "lodash": "^4.17.21",
     "lokijs": "^1.5.12",
     "nostr-relaypool": "^0.6.28",
-    "nostr-tools": "^1.11.2",
+    "nostr-tools": "github:Pineapple-Proxy-DAO/nostr-tools#nym",
     "preact": "^10.15.1",
     "preact-router": "^4.1.1",
     "preact-scroll-viewport": "^0.2.0",
