@@ -8,6 +8,7 @@ import localState from '../LocalState';
 import Events from './Events';
 import Key from './Key';
 import PubSub, { Unsubscribe } from './PubSub';
+import nymClient from '../lib/nostr-tools/nym';
 
 type SavedRelays = {
   [key: string]: {
@@ -19,7 +20,8 @@ type SavedRelays = {
 let savedRelays: SavedRelays = {};
 
 const DEFAULT_RELAYS = [
-  // 'wss://eden.nostr.land',
+  // 'wss://anonymous.nostr.ts',
+  'wss://eden.nostr.land',
   // 'wss://nostr.fmt.wiz.biz',
   // 'wss://relay.damus.io',
   // 'wss://nostr-pub.wellorder.net',
@@ -55,6 +57,8 @@ const Relays = {
   DEFAULT_RELAYS,
   init() {
     this.relays = new Map<string, Relay>(DEFAULT_RELAYS.map((url) => [url, this.relayInit(url)]));
+    console.log('Relays.init', this.relays);
+
     this.searchRelays = new Map<string, Relay>(
       SEARCH_RELAYS.map((url) => [url, this.relayInit(url)]),
     );

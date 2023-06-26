@@ -2,6 +2,7 @@
 
 import {Event, verifySignature, validateEvent} from './event'
 import {Filter, matchFilters} from './filter'
+import nymClient from './nym'
 
 type RelayEvent = 'connect' | 'disconnect' | 'error' | 'notice'
 
@@ -91,6 +92,18 @@ export function relayInit(
       let incomingMessageQueue: any[] = []
       let handleNextInterval: any
 
+      nymClient.waitForNymClientReady().then(() => {
+        if (nymClient.nym === null) return
+        nymClient.nym.events.subscribeToRawMessageReceivedEvent(e => {
+          console.log('Testing in ' + new TextDecoder().decode(e.args.payload))
+          incomingMessageQueue.push(new TextDecoder().decode(e.args.payload))
+          console.log('push in queue')
+          if (!handleNextInterval) {
+            handleNextInterval = setInterval(handleNext, 0)
+          }
+        })
+      })
+
       const handleNext = () => {
         if (incomingMessageQueue.length === 0) {
           clearInterval(handleNextInterval)
@@ -154,12 +167,25 @@ export function relayInit(
         }
       }
 
-      ws.onmessage = e => {
-        incomingMessageQueue.push(e.data)
+      console.log('connected to relay', nymClient.nym === null)
+
+      if (nymClient.nym === null) return
+
+      nymClient.nym.events.subscribeToRawMessageReceivedEvent(e => {
+        console.log('Testing in ', e.args.payload)
+
+        incomingMessageQueue.push(e.args.payload)
         if (!handleNextInterval) {
           handleNextInterval = setInterval(handleNext, 0)
         }
-      }
+      })
+
+      // ws.onmessage = e => {
+      //   incomingMessageQueue.push(e.data)
+      //   if (!handleNextInterval) {
+      //     handleNextInterval = setInterval(handleNext, 0)
+      //   }
+      // }
     })
   }
 
@@ -175,12 +201,14 @@ export function relayInit(
     try {
       // ws.send(msg)
 
-      window.nym.client.rawSend({
-        payload: new TextEncoder().encode(msg),
-        recipient:
-          '2gc9QidpXs4YGKmphinsDhWTHxdy2TZgWYWz2VenN5jL.dkwwJqS1zXa9BuPAFdniRN2HxFvAbTybAmrUHGAT5KV@2BuMSfMW3zpeAjKXyKLhmY4QW1DXurrtSPEJ6CjX3SEh',
-        replySurbs: 100
-      })
+      if (nymClient.nym !== null) {
+        nymClient.nym.client.rawSend({
+          payload: new TextEncoder().encode(msg),
+          recipient:
+            '2gc9QidpXs4YGKmphinsDhWTHxdy2TZgWYWz2VenN5jL.dkwwJqS1zXa9BuPAFdniRN2HxFvAbTybAmrUHGAT5KV@2BuMSfMW3zpeAjKXyKLhmY4QW1DXurrtSPEJ6CjX3SEh',
+          replySurbs: 100
+        })
+      }
     } catch (err) {
       console.log(err)
     }

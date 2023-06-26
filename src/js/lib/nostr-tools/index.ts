@@ -3,6 +3,7 @@ export * from './relay'
 export * from './event'
 export * from './filter'
 export * from './path'
+export * from './nym'
 
 export * as nip04 from './nip04'
 export * as nip05 from './nip05'
