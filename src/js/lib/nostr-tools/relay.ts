@@ -95,7 +95,7 @@ export function relayInit(
       nymClient.waitForNymClientReady().then(() => {
         if (nymClient.nym === null) return
         nymClient.nym.events.subscribeToRawMessageReceivedEvent(e => {
-          console.log('Testing in ' + new TextDecoder().decode(e.args.payload))
+          console.log('New event received ' + new TextDecoder().decode(e.args.payload))
           incomingMessageQueue.push(new TextDecoder().decode(e.args.payload))
           console.log('push in queue')
           if (!handleNextInterval) {
@@ -169,16 +169,18 @@ export function relayInit(
 
       console.log('connected to relay', nymClient.nym === null)
 
+      /*
       if (nymClient.nym === null) return
 
       nymClient.nym.events.subscribeToRawMessageReceivedEvent(e => {
-        console.log('Testing in ', e.args.payload)
+        console.log('Send event ', e.args.payload)
 
         incomingMessageQueue.push(e.args.payload)
         if (!handleNextInterval) {
           handleNextInterval = setInterval(handleNext, 0)
         }
       })
+      */
 
       // ws.onmessage = e => {
       //   incomingMessageQueue.push(e.data)
@@ -190,6 +192,7 @@ export function relayInit(
   }
 
   async function connect(): Promise<void> {
+    
     if (ws?.readyState && ws.readyState === 1) return // ws already open
     await connectRelay()
   }
@@ -261,9 +264,9 @@ export function relayInit(
     sub,
     on: (type: RelayEvent, cb: any): void => {
       listeners[type].push(cb)
-      if (type === 'connect' && ws?.readyState === 1) {
+      //if (type === 'connect' && ws?.readyState === 1) {
         cb()
-      }
+      //}
     },
     off: (type: RelayEvent, cb: any): void => {
       let index = listeners[type].indexOf(cb)
@@ -326,7 +329,7 @@ export function relayInit(
     },
     connect,
     close(): Promise<void> {
-      ws.close()
+      //ws.close()
       return new Promise<void>(resolve => {
         resolveClose = resolve
       })
