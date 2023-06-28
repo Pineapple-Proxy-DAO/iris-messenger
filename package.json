@@ -3,7 +3,7 @@
   "version": "2.3.3",
   "license": "MIT",
   "scripts": {
-    "build": "preact build --no-prerender",
+    "build": "preact build --no-prerender && cd build && cp index.html 404.html",
     "serve": "sirv build --port 8080 --cors --single",
     "dev": "preact watch --host localhost --sw",
     "dev-docker": "preact watch --host 0.0.0.0 --sw",
