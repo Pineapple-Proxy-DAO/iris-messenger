@@ -23,10 +23,16 @@ class NymClient {
     }
 
     const nymApiUrl = 'https://validator.nymtech.net/api'
+    // WSS is mandatory for HTTPS website
+    let preferredGatewayIdentityKey =
+        'E3mvZTHQCdBvhfr178Swx9g4QG3kkRUun7YnToLMcMbM'
+    let gatewayListener = 'wss://gateway1.nymtech.net:443'
 
     await this.nym.client.start({
       clientId: 'My awesome client',
-      nymApiUrl
+      nymApiUrl,
+      preferredGatewayIdentityKey: preferredGatewayIdentityKey,
+      gatewayListener: gatewayListener
     })
 
     this.nym.events.subscribeToConnected(e => {
