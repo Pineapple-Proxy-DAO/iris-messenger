@@ -329,7 +329,7 @@ export function relayInit(
     },
     connect,
     close(): Promise<void> {
-      //ws.close()
+      ws.close()
       return new Promise<void>(resolve => {
         resolveClose = resolve
       })

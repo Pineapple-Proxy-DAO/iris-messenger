@@ -3,12 +3,12 @@ import { shuffle, throttle } from 'lodash';
 
 import Helpers from '../Helpers';
 import { Event, Filter, Relay, relayInit, Sub } from '../lib/nostr-tools';
+import nymClient from '../lib/nostr-tools/nym';
 import localState from '../LocalState';
 
 import Events from './Events';
 import Key from './Key';
 import PubSub, { Unsubscribe } from './PubSub';
-import nymClient from '../lib/nostr-tools/nym';
 
 type SavedRelays = {
   [key: string]: {
@@ -22,6 +22,7 @@ let savedRelays: SavedRelays = {};
 const DEFAULT_RELAYS = [
   // 'wss://anonymous.nostr.ts',
   'wss://eden.nostr.land',
+  /*
   'wss://nostr.fmt.wiz.biz',
   'wss://relay.damus.io',
   'wss://nostr-pub.wellorder.net',
@@ -32,6 +33,7 @@ const DEFAULT_RELAYS = [
   'wss://relay.snort.social',
   'wss://relay.current.fyi',
   'wss://nostr.relayer.se',
+  */
 ];
 
 const SEARCH_RELAYS = ['wss://relay.nostr.band'];
@@ -131,7 +133,7 @@ const Relays = {
         count++;
       }
     }
-    return count;
+    return 0;
   },
   getUserRelays(user: string): Array<[string, PublicRelaySettings]> {
     let relays = new Map<string, PublicRelaySettings>();
@@ -173,7 +175,7 @@ const Relays = {
         const relay = this.relayInit(relayUrl, false);
         relay.publish(event);
         setTimeout(() => {
-          relay.close();
+          //relay.close();
         }, 5000);
       }
     }
@@ -193,7 +195,7 @@ const Relays = {
         }
         // if disabled
         if (relay.enabled === false && this.getStatus(relay) === 1) {
-          relay.close();
+         // relay.close();
         }
       }
       for (const relay of this.searchRelays.values()) {
