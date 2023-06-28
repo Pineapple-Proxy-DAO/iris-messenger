@@ -1,6 +1,8 @@
 name: CI Github
 on:
   push:
+    branches:
+      - 'testing'
   pull_request:
   workflow_dispatch:
   
