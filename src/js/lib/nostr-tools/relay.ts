@@ -38,7 +38,7 @@ export function relayInit(
   url: string,
   alreadyHaveEvent?: (id: string) => boolean
 ): Relay {
-  var ws: WebSocket
+  // var ws: WebSocket
   var resolveClose: () => void
   var resolveOpen: (value: PromiseLike<void> | void) => void
   var untilOpen = new Promise<void>(resolve => {
@@ -73,21 +73,21 @@ export function relayInit(
 
   async function connectRelay(): Promise<void> {
     return new Promise((resolve, reject) => {
-      ws = new WebSocket(url)
+      // ws = new WebSocket(url)
 
-      ws.onopen = () => {
-        listeners.connect.forEach(cb => cb())
-        resolveOpen()
-        resolve()
-      }
-      ws.onerror = () => {
-        listeners.error.forEach(cb => cb())
-        reject()
-      }
-      ws.onclose = async () => {
-        listeners.disconnect.forEach(cb => cb())
-        resolveClose && resolveClose()
-      }
+      // ws.onopen = () => {
+      //   listeners.connect.forEach(cb => cb())
+      //   resolveOpen()
+      //   resolve()
+      // }
+      // ws.onerror = () => {
+      //   listeners.error.forEach(cb => cb())
+      //   reject()
+      // }
+      // ws.onclose = async () => {
+      //   listeners.disconnect.forEach(cb => cb())
+      //   resolveClose && resolveClose()
+      // }
 
       let incomingMessageQueue: any[] = []
       let handleNextInterval: any
@@ -95,7 +95,9 @@ export function relayInit(
       nymClient.waitForNymClientReady().then(() => {
         if (nymClient.nym === null) return
         nymClient.nym.events.subscribeToRawMessageReceivedEvent(e => {
-          console.log('New event received ' + new TextDecoder().decode(e.args.payload))
+          console.log(
+            'New event received ' + new TextDecoder().decode(e.args.payload)
+          )
           incomingMessageQueue.push(new TextDecoder().decode(e.args.payload))
           console.log('push in queue')
           if (!handleNextInterval) {
@@ -103,6 +105,10 @@ export function relayInit(
           }
         })
       })
+
+      listeners.connect.forEach(cb => cb())
+      resolveOpen()
+      resolve()
 
       const handleNext = () => {
         if (incomingMessageQueue.length === 0) {
@@ -192,9 +198,9 @@ export function relayInit(
   }
 
   async function connect(): Promise<void> {
-    
-    if (ws?.readyState && ws.readyState === 1) return // ws already open
-    await connectRelay()
+    return
+    // if (ws?.readyState && ws.readyState === 1) return // ws already open
+    // await connectRelay()
   }
 
   async function trySend(params: [string, ...any]) {
@@ -265,7 +271,7 @@ export function relayInit(
     on: (type: RelayEvent, cb: any): void => {
       listeners[type].push(cb)
       //if (type === 'connect' && ws?.readyState === 1) {
-        cb()
+      cb()
       //}
     },
     off: (type: RelayEvent, cb: any): void => {
@@ -329,13 +335,14 @@ export function relayInit(
     },
     connect,
     close(): Promise<void> {
-      ws.close()
+      // ws.close()
       return new Promise<void>(resolve => {
         resolveClose = resolve
       })
     },
     get status() {
-      return ws?.readyState ?? 3
+      return 1
+      // return ws?.readyState ?? 3
     }
   }
 }

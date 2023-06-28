@@ -21,7 +21,8 @@ let savedRelays: SavedRelays = {};
 
 const DEFAULT_RELAYS = [
   // 'wss://anonymous.nostr.ts',
-  'wss://eden.nostr.land',
+  // 'wss://eden.nostr.land',
+  'nym',
   /*
   'wss://nostr.fmt.wiz.biz',
   'wss://relay.damus.io',
@@ -195,7 +196,7 @@ const Relays = {
         }
         // if disabled
         if (relay.enabled === false && this.getStatus(relay) === 1) {
-         // relay.close();
+          // relay.close();
         }
       }
       for (const relay of this.searchRelays.values()) {
