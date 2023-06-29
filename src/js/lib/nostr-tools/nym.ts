@@ -29,7 +29,7 @@ class NymClient {
     let gatewayListener = 'wss://gateway1.nymtech.net:443'
 
     await this.nym.client.start({
-      clientId: 'My awesome client',
+      clientId: 'nostr-nym',
       nymApiUrl,
       preferredGatewayIdentityKey: preferredGatewayIdentityKey,
       gatewayListener: gatewayListener
@@ -37,7 +37,6 @@ class NymClient {
 
     this.nym.events.subscribeToConnected(e => {
       console.log('Connected to gateway', e)
-      console.log('Connected to gateway')
     })
 
     this.isInitialized = true
