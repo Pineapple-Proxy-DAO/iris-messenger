@@ -22,7 +22,7 @@ let savedRelays: SavedRelays = {};
 const DEFAULT_RELAYS = [
   // 'wss://anonymous.nostr.ts',
   // 'wss://eden.nostr.land',
-  'nym',
+  '2gc9QidpXs4YGKmphinsDhWTHxdy2TZgWYWz2VenN5jL.dkwwJqS1zXa9BuPAFdniRN2HxFvAbTybAmrUHGAT5KV@2BuMSfMW3zpeAjKXyKLhmY4QW1DXurrtSPEJ6CjX3SEh',
   /*
   'wss://nostr.fmt.wiz.biz',
   'wss://relay.damus.io',
@@ -134,7 +134,7 @@ const Relays = {
         count++;
       }
     }
-    return 0;
+    return count;
   },
   getUserRelays(user: string): Array<[string, PublicRelaySettings]> {
     let relays = new Map<string, PublicRelaySettings>();
