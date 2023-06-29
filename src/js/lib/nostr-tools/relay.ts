@@ -91,6 +91,8 @@ export function relayInit(
 
       let incomingMessageQueue: any[] = []
       let handleNextInterval: any
+      console.log(incomingMessageQueue)
+
 
       nymClient.waitForNymClientReady().then(() => {
         if (nymClient.nym === null) return
@@ -123,7 +125,7 @@ export function relayInit(
           if (match) {
             const id = match[1]
             if (alreadyHaveEvent(id)) {
-              //console.log(`already have`);
+              console.log(`already have`);
               return
             }
           }
@@ -198,9 +200,9 @@ export function relayInit(
   }
 
   async function connect(): Promise<void> {
-    return
+    //return
     // if (ws?.readyState && ws.readyState === 1) return // ws already open
-    // await connectRelay()
+    await connectRelay()
   }
 
   async function trySend(params: [string, ...any]) {
@@ -209,7 +211,7 @@ export function relayInit(
     await untilOpen
     try {
       // ws.send(msg)
-
+      console.log("Send event ",msg)
       if (nymClient.nym !== null) {
         nymClient.nym.client.rawSend({
           payload: new TextEncoder().encode(msg),
