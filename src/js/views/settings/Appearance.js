@@ -4,7 +4,7 @@ import { translate as t } from '../../translations/Translation';
 
 export default class Appearance extends Component {
   state = {
-    colorScheme: 'dark',
+    colorScheme: 'light',
   };
 
   render() {

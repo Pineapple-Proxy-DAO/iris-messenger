@@ -698,6 +698,7 @@ const Events = {
       return;
     }
 
+    /*
     if (proxyFirst) {
       // give proxy 300 ms to respond, then ask ws
       const askRelaysTimeout = setTimeout(() => {
@@ -717,7 +718,8 @@ const Events = {
       });
     } else {
       PubSub.subscribe({ ids: [id] }, cb, false);
-    }
+    }*/
+    PubSub.subscribe({ ids: [id] }, cb, false);
   },
   getDirectMessagesByUser(address: string, cb?: (messageIds: string[]) => void): Unsubscribe {
     const callback = () => {

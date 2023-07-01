@@ -18,12 +18,12 @@ type Unsubscribe = () => void;
 let subscriptionId = 0;
 
 let dev: any = {
-  logSubscriptions: false,
+  logSubscriptions: true,
   indexed03: true,
   useRelayPool: false,
 };
 const relayPool = new RelayPool(Relays.DEFAULT_RELAYS, {
-  useEventCache: false,
+  useEventCache: true,
   autoReconnect: true,
   externalGetEventById: (id) =>
     (Events.seen.has(id) && {

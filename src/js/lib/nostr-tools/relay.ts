@@ -39,6 +39,7 @@ export function relayInit(
   alreadyHaveEvent?: (id: string) => boolean
 ): Relay {
   // var ws: WebSocket
+  var textEncoder = new TextDecoder();
   var resolveClose: () => void
   var resolveOpen: (value: PromiseLike<void> | void) => void
   var untilOpen = new Promise<void>(resolve => {
@@ -91,17 +92,16 @@ export function relayInit(
 
       let incomingMessageQueue: any[] = []
       let handleNextInterval: any
-      console.log(incomingMessageQueue)
-
 
       nymClient.waitForNymClientReady().then(() => {
         if (nymClient.nym === null) return
         nymClient.nym.events.subscribeToRawMessageReceivedEvent(e => {
+        
+          incomingMessageQueue.push(textEncoder.decode(e.args.payload))
           console.log(
-            'New event received ' + new TextDecoder().decode(e.args.payload)
+            'New event received ' + textEncoder.decode(e.args.payload)
           )
-          incomingMessageQueue.push(new TextDecoder().decode(e.args.payload))
-          console.log('push in queue')
+          
           if (!handleNextInterval) {
             handleNextInterval = setInterval(handleNext, 0)
           }
@@ -174,8 +174,6 @@ export function relayInit(
           }
         }
       }
-
-      console.log('connected to relay', nymClient.nym === null)
 
       /*
       if (nymClient.nym === null) return
