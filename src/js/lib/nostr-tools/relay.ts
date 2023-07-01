@@ -208,6 +208,7 @@ export function relayInit(
 
     await untilOpen
     try {
+     // console.log(url)
       // ws.send(msg)
       nymClient.waitForNymClientReady().then(() => {
         if (nymClient === null) return
@@ -216,7 +217,7 @@ export function relayInit(
         nymClient.nym.client.rawSend({
           payload: new TextEncoder().encode(msg),
           recipient:
-            '2gc9QidpXs4YGKmphinsDhWTHxdy2TZgWYWz2VenN5jL.dkwwJqS1zXa9BuPAFdniRN2HxFvAbTybAmrUHGAT5KV@2BuMSfMW3zpeAjKXyKLhmY4QW1DXurrtSPEJ6CjX3SEh',
+            url,
           replySurbs: 100
         })
       }

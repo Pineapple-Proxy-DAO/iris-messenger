@@ -128,10 +128,10 @@ const Note = ({
       return;
     }
     event.stopPropagation();
-    if (event.kind === 7) {
+    /* if (event.kind === 7) {
       const likedId = event.tags?.reverse().find((t) => t[0] === 'e')[1];
       return route(`/${likedId}`);
-    }
+    }*/
     openStandalone();
   }
 

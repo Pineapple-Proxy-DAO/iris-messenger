@@ -211,15 +211,7 @@ const Reactions = (props) => {
         >
           {s.reposts || ''}
         </span>
-        <a
-          className={`msg-btn like-btn ${s.liked ? 'liked' : ''}`}
-          onClick={(e) => likeBtnClicked(e)}
-        >
-          {s.liked ? Icons.heartFull : Icons.heartEmpty}
-        </a>
-        <span className={`count ${s.showLikes ? 'active' : ''}`} onClick={(e) => toggleLikes(e)}>
-          {s.likes || ''}
-        </span>
+        
         {state.lightning ? (
           <>
             <a
